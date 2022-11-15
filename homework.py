@@ -83,14 +83,14 @@ class SportsWalking(Training):
                  ) -> None:
         super().__init__(action, duration, weight)
         self.height = height
-    
+
     def get_spent_calories(self) -> float:
         return ((self.CALORIES_MEAN_WEIGHT_MULTIPLIER * self.weight
-                + ((self.get_mean_speed() / self.KM_IN_H)**2 
-                / (self.height / self.METR)) 
+                + ((self.get_mean_speed() / self.KM_IN_H)**2
+                 / (self.height / self.METR))
                 * self.CALORIES_MEAN_WEIGHT_SHIFT * self.weight)
                 * self.duration * self.MINUTE)
-         
+
 
 class Swimming(Training):
     """Тренировка: плавание."""
@@ -106,29 +106,30 @@ class Swimming(Training):
                  lenght_pool: float,
                  count_pool: float
                  ) -> None:
-        super().__init__(action, duration, weight)   
+        super().__init__(action, duration, weight)
         self.lenght_pool = lenght_pool
         self.count_pool = count_pool
 
     def get_mean_speed(self) -> float:
         return (self.lenght_pool * self.count_pool / self.M_IN_KM
-                 / self.duration)
-         
+                / self.duration)
+
     def get_spent_calories(self) -> float:
         return ((self.get_mean_speed() + self.CALORIES_MEAN_WEIGHT_MULTIPLIER)
                 * self.CALORIES_MEAN_WEIGHT_SHIFT * self.weight
                 * self.duration)
-         
+
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    workout_types: Dict[str, Type[Training]] = {   
+    workout_types: Dict[str, Type[Training]] = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking
     }
     if workout_type in workout_types:
         return workout_types[workout_type](*data)
+
 
 def main(training: Training) -> None:
     """Главная функция."""
@@ -146,4 +147,3 @@ if __name__ == '__main__':
     for training_type, data in packages:
         training = read_package(training_type, data)
         main(training)
-
