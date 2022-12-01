@@ -1,5 +1,5 @@
 from typing import Dict, Type
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 
 
 @dataclass
@@ -10,11 +10,14 @@ class InfoMessage:
     distance: float
     speed: float
     calories: float
-    messege: str = ('Тип тренировки: {training_type}; '
-                    'Длительность: {duration :.3f} ч.; '
-                    'Дистанция: {distance :.3f} км; '
+    message: str = ('Тип тренировки: {training_type}; '
+                    'Длительность: {duration:.3f} ч.; '
+                    'Дистанция: {distance:.3f} км; '
                     'Ср. скорость: {speed:.3f} км/ч; '
                     'Потрачено ккал: {calories:.3f}.')
+
+    def get_message(self) -> str:
+        return self.message.format(**asdict(self))
 
 
 class Training:
